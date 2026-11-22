@@ -7,3 +7,4 @@
 
 ## Documentation
 - Prefers project documentation kept as markdown files in the repo, and gives the agent latitude to create new `.md` files to organize project docs. Confidence: 0.75
+- Wants the README to showcase the tool stack visually — badges (shields.io) plus a stack/technologies table — not just prose. Confidence: 0.6
