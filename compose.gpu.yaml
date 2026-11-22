@@ -1,0 +1,22 @@
+# Override opcional para dar GPU ao container da API.
+#
+# Pré-requisitos:
+#   1. NVIDIA Container Toolkit instalado no host e runtime configurado no Docker.
+#   2. Imagem com wheels CUDA (torch/cu12x + cuDNN para CTranslate2). A imagem
+#      padrão é python:3.12-slim com wheels CPU — reservar a GPU sozinho não
+#      torna o container CUDA-capable.
+#
+# Uso: docker compose -f compose.yaml -f compose.gpu.yaml up --build
+services:
+  api:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    environment:
+      NVIDIA_VISIBLE_DEVICES: all
+      NVIDIA_DRIVER_CAPABILITIES: compute,utility
+      AST_DEVICE: cuda

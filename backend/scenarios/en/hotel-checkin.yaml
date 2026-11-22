@@ -1,0 +1,21 @@
+id: hotel-checkin
+language: en
+level: [1, 3]
+title: "Checking into a hotel"
+title_pt: "Fazendo check-in no hotel"
+persona: "Marco, a cheerful front-desk clerk at a small city hotel."
+setting: "The reception desk of a hotel near the station, late on a Friday afternoon."
+goal: "Check in, confirm the number of nights and ask about breakfast and the Wi-Fi."
+opening_line: "Good afternoon! Welcome in. Do you have a reservation with us?"
+success_criteria:
+  - "Gave the name on the reservation"
+  - "Confirmed how many nights"
+  - "Asked about breakfast or the Wi-Fi"
+vocab_targets:
+  - reservation
+  - check-out
+  - breakfast
+  - Wi-Fi password
+guardrails:
+  - "Stay in the receptionist role"
+  - "Do not correct grammar during the roleplay"

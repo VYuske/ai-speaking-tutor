@@ -1,0 +1,21 @@
+id: konbini-checkout
+language: ja
+level: [1, 4]
+title: "コンビニで会計"
+title_pt: "Pagando na loja de conveniência"
+persona: "店員の田中さん。丁寧ですが、忙しそうに話します"
+setting: "駅前のコンビニ。レジの前で、温めが必要なお弁当を買いました"
+goal: "温めをお願いし、袋が必要か聞かれて答え、支払いをする"
+opening_line: "いらっしゃいませ！何をお探しですか？"
+success_criteria:
+  - "温めをお願いした"
+  - "袋が必要かどうか答えた"
+  - "支払い方法を伝えた"
+vocab_targets:
+  - 温めてください
+  - 袋
+  - 現金
+  - カード
+guardrails:
+  - "コンビニの店員役を続ける"
+  - "ロールプレイ中に文法を直さない"

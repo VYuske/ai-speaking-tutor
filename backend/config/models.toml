@@ -1,0 +1,57 @@
+default_profile = "skeleton"
+
+# ---------------------------------------------------------------------------
+# LLM: qualquer endpoint OpenAI-compatible (Ollama, llama.cpp server, vLLM...)
+# ---------------------------------------------------------------------------
+[llm.default]
+provider = "openai_compat"
+base_url = "http://host.docker.internal:11435/v1"
+model = "qwen3.5:4b"
+api_key = "ollama"
+temperature = 0.8
+eval_temperature = 0.0
+max_tokens = 220
+timeout_s = 60
+json_mode = "ollama_native" # "ollama_native" | "json_object"
+# Sem isso o qwen3.5:4b gasta max_tokens pensando e devolve content vazio.
+reasoning_effort = "none"
+
+# ---------------------------------------------------------------------------
+# Perfis: escolha por sessão. O orquestrador rebaixa em caso de OOM.
+# ---------------------------------------------------------------------------
+[profiles.skeleton]
+llm = "default"
+stt = { provider = "fake" }
+tts = { provider = "fake" }
+
+# Piso garantido para 6 GB: só o LLM na GPU, áudio na CPU.
+[profiles.compact]
+llm = "default"
+stt = { provider = "faster_whisper", model = "small", device = "cpu", compute_type = "int8" }
+tts = { provider = "kokoro", device = "cpu", cpu_threads = 6, voice_by_lang = { en = "af_heart", ja = "jf_alpha", zh = "zf_xiaobei" } }
+
+# 8 GB+: áudio também na GPU.
+[profiles.balanced]
+llm = "default"
+stt = { provider = "qwen3_asr", model = "Qwen3-ASR-0.6B", device = "cuda" }
+tts = { provider = "qwen3_tts", model = "Qwen3-TTS-12Hz-0.6B-CustomVoice", device = "cuda", voice_by_lang = { en = "Ryan", ja = "Ono_Anna", zh = "Vivian", de = "Ryan" } }
+
+# ---------------------------------------------------------------------------
+# Overrides por idioma
+# ---------------------------------------------------------------------------
+[languages.en]
+level_scale = "CEFR"
+
+[languages.ja]
+profile = "compact"
+level_scale = "JLPT"
+stt = { language_hint = "ja" }
+
+[languages.zh]
+level_scale = "HSK"
+stt = { language_hint = "zh" }
+
+[languages.de]
+level_scale = "CEFR"
+# Kokoro não tem alemão: Piper na CPU, com a voz baixada no build da imagem.
+tts = { provider = "piper", device = "cpu", voice = "de_DE-thorsten-medium", model_dir = "/app/voices" }

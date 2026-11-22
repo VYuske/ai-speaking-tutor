@@ -1,0 +1,21 @@
+id: post-office-parcel
+language: ja
+level: [1, 4]
+title: "郵便局で荷物を送る"
+title_pt: "Enviando um pacote no correio"
+persona: "窓口の渡辺さん。慣れた様子で、必要なことを順番に聞きます"
+setting: "午後の郵便局。実家に服を送りたいのですが、送り方が分かりません"
+goal: "送り先を伝え、送り方の種類を選び、料金と日数を確認する"
+opening_line: "いらっしゃいませ。本日はどうされましたか？"
+success_criteria:
+  - "送り先を伝えた"
+  - "送り方の種類を選んだ"
+  - "料金と日数を確認した"
+vocab_targets:
+  - 小包
+  - 速達
+  - 送り先
+  - 着払い
+guardrails:
+  - "窓口係役を続ける"
+  - "ロールプレイ中に文法を直さない"

@@ -1,0 +1,65 @@
+name: ai-speaking-tutor
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/api.Dockerfile
+      args:
+        # Ex.: "--extra stt --extra tts" habilita Whisper e Kokoro (imagem maior).
+        INSTALL_EXTRAS: "${AST_INSTALL_EXTRAS:-}"
+    environment:
+      AST_PROFILE: "${AST_PROFILE:-skeleton}"
+      AST_OLLAMA_BASE_URL: "${AST_OLLAMA_BASE_URL:-http://host.docker.internal:11435/v1}"
+      AST_LLM_MODEL: "${AST_LLM_MODEL:-qwen3.5:4b}"
+      AST_LOG_LEVEL: "${AST_LOG_LEVEL:-INFO}"
+      AST_CONFIG: /app/config/models.toml
+      AST_SCENARIOS: /app/scenarios
+      AST_DATA_DIR: /data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ast_data:/data
+      - hf_cache:/home/app/.cache/huggingface
+      - ./backend/config:/app/config:ro
+      - ./backend/scenarios:/app/scenarios:ro
+      # Smoke test de áudio dentro do container (`python /app/scripts/audio_smoke.py`).
+      - ./scripts:/app/scripts:ro
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=2)",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  # Expõe o Ollama do host (127.0.0.1:11434) apenas para a bridge do Docker,
+  # sem exigir OLLAMA_HOST nem sudo. O host continua usando 127.0.0.1:11434.
+  ollama-proxy:
+    image: alpine/socat
+    network_mode: host
+    command: TCP-LISTEN:11435,bind=172.17.0.1,fork,reuseaddr TCP:127.0.0.1:11434
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/web.Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  ast_data:
+  hf_cache:

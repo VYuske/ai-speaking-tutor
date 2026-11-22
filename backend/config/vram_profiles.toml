@@ -1,0 +1,13 @@
+# MiB thresholds per profile (AST-028). Single source for both readers:
+#   - backend/app/core/vram.py   (session.start warning, via tomllib)
+#   - scripts/preflight_gpu.py   (host preflight, via tomllib)
+# `total_vram_mib` is the floor to fit a device; `free_vram_mib` is what the profile
+# assumes free at load time (reported as headroom, never used to pick a profile).
+
+[compact]
+total_vram_mib = 6144
+free_vram_mib = 4608
+
+[balanced]
+total_vram_mib = 8192
+free_vram_mib = 6144

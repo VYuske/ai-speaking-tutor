@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Local data & models
+backend/data/
+data/
+models/
+*.db
+*.sqlite3
+
+# Test artifacts
+frontend/playwright-report/
+frontend/test-results/
+frontend/blob-report/
+frontend/coverage/
+coverage/
+.coverage
+
+# Env
+.env
+.env.local
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,28 @@
+default_profile = "fake"
+
+[llm.fake]
+provider = "fake"
+delay_ms = 0
+
+[profiles.fake]
+llm = "fake"
+stt = { provider = "fake" }
+tts = { provider = "fake" }
+
+[profiles.alternate]
+llm = "fake"
+stt = { provider = "fake", model = "alternate-stt" }
+tts = { provider = "fake", voice = "alternate-voice" }
+
+[languages.en]
+level_scale = "CEFR"
+
+[languages.ja]
+level_scale = "JLPT"
+
+[languages.zh]
+level_scale = "HSK"
+
+[languages.de]
+level_scale = "CEFR"
+tts = { provider = "fake", voice = "de-voice" }

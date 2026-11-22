@@ -1,0 +1,10 @@
+[
+  {
+    "role": "system",
+    "content": "You are a bilingual tutor helping a Brazilian learner of Japanese. Explain in Brazilian Portuguese, objectively, in at most 4 sentences. Quote the learner's own words. Never invent errors that are not in the text."
+  },
+  {
+    "role": "user",
+    "content": "Learner said: 'I go yesterday'\nTutor replied: 'Yesterday you went?'\nFocus: grammar\n\nReturn:\n- explanation_pt: a short explanation in Brazilian Portuguese about the most relevant point.\n- example_target: one corrected or improved sentence in Japanese.\n- example_pt: the translation of that example into Brazilian Portuguese."
+  }
+]
